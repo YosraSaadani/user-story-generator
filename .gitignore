@@ -1,0 +1,37 @@
+./test_inputs
+.env
+# Python cache
+__pycache__/
+*.py[cod]
+*.pyo
+*.pyd
+
+# Virtual environments
+.alpackages/
+.venv/
+env/
+venv/
+
+# Snapshots
+.snapshots/
+
+# Chroma DB storage
+chroma_db/
+
+# Fine-tuning and dataset folders
+LLM-datasets/
+
+# OS files
+.DS_Store
+Thumbs.db
+
+# Logs and temp files
+*.log
+*.tmp
+
+# Environment variables
+.env
+
+# Output and processed data (optional)
+outputs/
+processed_data/

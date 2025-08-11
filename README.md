@@ -1,32 +1,41 @@
-# RAG-JIRA Story Generator
+---
 
-A comprehensive Retrieval-Augmented Generation (RAG) system designed to process documents containing software requirements, classify and chunk content semantically, retrieve relevant context, generate structured Agile artifacts (user stories, epics, acceptance criteria), and integrate with JIRA for story creation. Built with LangChain, ChromaDB, Ollama, FastAPI, and Hugging Face models.
+# 🚀 RAG-JIRA Story Generator
 
-## Overview
+A comprehensive **Retrieval-Augmented Generation (RAG)** system designed to process documents containing software requirements, classify and chunk content semantically, retrieve relevant context, generate structured Agile artifacts (user stories, epics, acceptance criteria), and integrate with **JIRA** for story creation. Built with **LangChain**, **ChromaDB**, **Ollama**, **FastAPI**, and **Hugging Face** models. ⚙️✨
 
-This project automates the transformation of raw requirement documents (TXT, PDF, DOCX) into actionable JIRA stories. It uses advanced NLP for classification, semantic chunking for optimal retrieval, vector embeddings for similarity search, and local LLMs (via Ollama) for generation. The system includes a FastAPI backend for uploading documents, generating summaries, and pushing to JIRA.
+---
 
-Key components:
-- **Document Processing**: Loads, parses, chunks, and classifies requirements.
-- **Vector Store**: ChromaDB for storing embeddings of processed chunks.
-- **Retrieval**: Semantic search with filters for context retrieval.
-- **Generation**: Ollama-based query engine to create user stories and epics.
-- **Integration**: Pushes generated stories to JIRA via API.
-- **API**: FastAPI endpoints for upload, download, and JIRA push.
+## 📖 Overview
 
-## Features
+This project automates the transformation of raw requirement documents (TXT, PDF, DOCX) into actionable JIRA stories. It uses advanced NLP for classification, semantic chunking for optimal retrieval, vector embeddings for similarity search, and local LLMs (via Ollama) for generation. The system includes a **FastAPI** backend for uploading documents, generating summaries, and pushing to JIRA.
 
-- Multi-format document support (TXT, PDF, DOCX, JSON datasets).
-- Zero-shot classification of requirements (e.g., user stories, acceptance criteria).
-- Semantic chunking with configurable size and overlap.
-- RAG pipeline with Ollama (Mistral model) for generating structured outputs.
-- JSONL output for generated stories, convertible to readable DOCX.
-- JIRA integration for creating issues with custom fields (e.g., sprint, epic).
-- Interactive CLI for querying the RAG system.
-- Batch processing and statistics for chunks and vectors.
-- CORS-enabled FastAPI for frontend integration.
+### Key components:
 
-## Project Structure
+* 📄 **Document Processing**: Loads, parses, chunks, and classifies requirements.
+* 🗃️ **Vector Store**: ChromaDB for storing embeddings of processed chunks.
+* 🔍 **Retrieval**: Semantic search with filters for context retrieval.
+* 🤖 **Generation**: Ollama-based query engine to create user stories and epics.
+* 🔗 **Integration**: Pushes generated stories to JIRA via API.
+* 🚀 **API**: FastAPI endpoints for upload, download, and JIRA push.
+
+---
+
+## ✨ Features
+
+* 📚 Multi-format document support (TXT, PDF, DOCX, JSON datasets).
+* 🎯 Zero-shot classification of requirements (e.g., user stories, acceptance criteria).
+* 🧩 Semantic chunking with configurable size and overlap.
+* ⚙️ RAG pipeline with Ollama (Mistral model) for generating structured outputs.
+* 📄 JSONL output for generated stories, convertible to readable DOCX.
+* 📌 JIRA integration for creating issues with custom fields (e.g., sprint, epic).
+* 💻 Interactive CLI for querying the RAG system.
+* 📊 Batch processing and statistics for chunks and vectors.
+* 🌐 CORS-enabled FastAPI for frontend integration.
+
+---
+
+## 🗂️ Project Structure
 
 ```
 MAIN PROJECT/
@@ -64,22 +73,27 @@ MAIN PROJECT/
 └── README.md                  # This file
 ```
 
-## Installation
+---
+
+## ⚙️ Installation
 
 1. **Clone the Repository**:
-   ```
+
+   ```bash
    git clone <repository-url>
    cd MAIN PROJECT
    ```
 
 2. **Set Up Virtual Environment**:
-   ```
+
+   ```bash
    python -m venv venv
    source venv/bin/activate  # On Windows: venv\Scripts\activate
    ```
 
 3. **Install Dependencies**:
    Create a `requirements.txt` with:
+
    ```
    fastapi
    uvicorn
@@ -98,30 +112,39 @@ MAIN PROJECT/
    numpy
    scikit-learn
    ```
+
    Then run:
-   ```
+
+   ```bash
    pip install -r requirements.txt
    ```
+
    Download spaCy model:
-   ```
+
+   ```bash
    python -m spacy download en_core_web_sm
    ```
+
    Download NLTK data:
-   ```
+
+   ```bash
    python -c "import nltk; nltk.download('punkt'); nltk.download('stopwords')"
    ```
 
 4. **Install and Run Ollama**:
-   - Download Ollama: [ollama.ai](https://ollama.ai)
-   - Make sure you have Mistral pulled and downloaded from Ollama:
-     ```
+
+   * Download Ollama: [ollama.ai](https://ollama.ai) 🌐
+   * Pull Mistral model and start server:
+
+     ```bash
      ollama pull mistral
      ollama serve
      ```
-   - Ensure Ollama server is running on `http://localhost:11434`
+   * Ensure Ollama server runs on `http://localhost:11434`
 
 5. **Configure Environment**:
-   Create `.env` file with the following placeholders (update with your own JIRA details before running):
+   Create `.env` file with your JIRA credentials:
+
    ```
    JIRA_EMAIL=your-email@example.com
    JIRA_API_TOKEN=your-api-token
@@ -129,92 +152,114 @@ MAIN PROJECT/
    JIRA_PROJECT_KEY=YOURPROJECTKEY
    URL=https://your-domain.atlassian.net/rest/api/3/issue
    ```
-   Before running any scripts that interact with JIRA, update the `.env` file with your own JIRA account details. This should be easy and quick.
 
-## Usage
+   ⚠️ Update these before running!
+
+---
+
+## 🏃 Usage
 
 ### 1. Process Datasets
-Run the dataset processor to convert raw JSON to structured training data:
-```
+
+Convert raw JSON to structured training data:
+
+```bash
 python processing_script.py
 ```
-This generates `processed_data/training_data.json`.
 
-If you encounter any errors along the way (mostly due to undownloaded packages), run:
-```
+Generates `processed_data/training_data.json`.
+
+If errors occur, run:
+
+```bash
 pip install -r requirements.txt
 ```
 
 ### 2. Build Vector Database
-Setup the RAG system (creates/loads ChromaDB):
-```
+
+Setup or reload ChromaDB vector store:
+
+```bash
 python setup_and_run.py
 ```
-Use `--recreate-db` flag to force rebuild.
+
+Use `--recreate-db` to rebuild.
 
 ### 3. Interactive CLI
-Start interactive query session:
-```
+
+Query the RAG system interactively:
+
+```bash
 python main_rag.py
 ```
-- Type questions (e.g., "Convert this requirement into user stories").
-- Commands: `exit`, `help`, `stats`.
+
+Commands: `exit`, `help`, `stats`.
 
 ### 4. Run API Server
-In the project directory, activate the FastAPI server:
-```
+
+Start FastAPI server:
+
+```bash
 uvicorn api:app --reload
 ```
-Open the UI file (or access via browser at `http://localhost:8000/docs` for Swagger UI) and test your project.
 
-Endpoints:
-- **POST /upload_and_generate/**: Upload document → Process with RAG → Generate JSONL/DOCX.
-  - Body: `file` (UploadFile)
-  - Response: `{ "download_link": "/download_docx" }`
-- **GET /download_docx**: Download generated DOCX summary.
-- **POST /push_to_jira**: Push JSONL stories to JIRA.
-  - Response: `{ "message": "Pushed to Jira", "download_link": "/download_docx" }`
+Access Swagger UI at: [http://localhost:8000/docs](http://localhost:8000/docs)
+
+**Endpoints:**
+
+* 🗂️ **POST /upload\_and\_generate/** — Upload and generate JSONL/DOCX.
+* 📥 **GET /download\_docx** — Download generated DOCX summary.
+* 📤 **POST /push\_to\_jira** — Push stories to JIRA.
 
 ### 5. Process a Single File
-Use `rag_processor.py` for standalone processing:
-```
+
+Standalone processing for a test file:
+
+```bash
 python rag_processor.py
 ```
-Processes `test_inputs/test2.pdf` (configurable).
 
 ### 6. Push to JIRA
-After generation:
-```
+
+Push generated stories to JIRA:
+
+```bash
 python push_stories_to_jira.py
 ```
-Uses `outputs/generated_rag_output.jsonl`.
 
-## Configuration Options
+---
 
-- **Chunking**: Adjust `chunk_size` (1000) and `chunk_overlap` (200) in scripts.
-- **Embeddings**: Change model in `vector_store.py` (default: all-MiniLM-L6-v2).
-- **Ollama**: Set model/URL in `code_engine.py`.
-- **JIRA**: Custom fields in `push_stories_to_jira.py`.
+## ⚙️ Configuration Options
 
-## Dependencies
+* 🧩 Chunk size & overlap in scripts (`chunk_size`, `chunk_overlap`).
+* 🔄 Embedding model in `vector_store.py`.
+* 🤖 Ollama model & URL in `code_engine.py`.
+* 🏷️ Custom JIRA fields in `push_stories_to_jira.py`.
 
-- Python 3.8+
-- See `requirements.txt` for full list.
+---
 
-## Troubleshooting
+## 📦 Dependencies
 
-- **Ollama Not Running**: Check `http://localhost:11434/api/tags`.
-- **Vector Store Issues**: Delete `chroma_db/` and recreate.
-- **JIRA Errors**: Verify API token and account ID in `.env`.
-- **Model Loading**: Ensure GPU/CPU resources for embeddings/LLM.
+* Python 3.8+
+* See `requirements.txt` for details.
 
-## Contributing
+---
 
-1. Fork the repository.
+## 🛠️ Troubleshooting
+
+* ❌ Ollama not running? Check `http://localhost:11434/api/tags`.
+* 🗃️ Vector store issues? Delete `chroma_db/` and recreate.
+* 🔐 JIRA errors? Verify API token and account info in `.env`.
+* ⚡ Model loading? Check GPU/CPU resource availability.
+
+---
+
+## 🤝 Contributing
+
+1. Fork the repo.
 2. Create a feature branch.
-3. Commit changes.
+3. Commit your changes.
 4. Push and open a Pull Request.
 
-## License
+---
 
-MIT License. See [LICENSE](LICENSE) for details.
